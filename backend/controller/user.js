@@ -61,7 +61,9 @@ const verifyUser = asyncHandler(async (req, res, next) => {
   await User.findByIdAndUpdate(id, { isVerified: true });
   //delete token after verification
   await Token.findOneAndDelete({ userId: id });
-  res.status(200).json({ msg: "You are verified please login" });
+  //redirect to login page
+
+  res.status(200).json({ msg: "user verified, please login" });
 });
 
 //login user
@@ -193,8 +195,20 @@ const deleteUser = asyncHandler(async (req, res, next) => {
   res.status(200).json({ success: true, msg: `user deleted with id ${id}` });
 });
 
+//get one user
+//endPoint : api/users/one
+const getUser = asyncHandler(async (req, res, next) => {
+  const { id } = req.user;
+  const user = await User.findById(id);
+  if (!user) {
+    return next(new ErrorResponse("user not found", 400));
+  }
+  res.status(200).json({ success: true, user });
+});
+
 module.exports = {
   createUser,
+  getUser,
   verifyUser,
   loginUser,
   forgotPassword,

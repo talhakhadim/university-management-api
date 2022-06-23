@@ -7,11 +7,15 @@ const userRouter = require("./routes/user");
 const subjectRouter = require("./routes/subject");
 const courseRouter = require("./routes/course");
 const enroleRouter = require("./routes/enrole");
+const cors = require("cors");
 const morgan = require("morgan");
 const cookieparser = require("cookie-parser");
 const app = express();
 
+app.use(cors());
+
 app.use(morgan("tiny"));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 app.use(cookieparser());

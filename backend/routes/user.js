@@ -4,6 +4,7 @@ const checkAdmin = require("../middleware/checkAdmin");
 const {
   createUser,
   verifyUser,
+  getUser,
   loginUser,
   forgotPassword,
   verifyForgotPassowdToken,
@@ -14,12 +15,13 @@ const {
 const router = express.Router();
 
 router.post("/", createUser);
-router.get("/", jwtVerify, checkAdmin, getUsers);
+router.get("/", getUsers);
+router.get("/one", jwtVerify, getUser);
 router.get("/verify/:id/:token", verifyUser);
 router.post("/login", loginUser);
 router.post("/forgot_password", jwtVerify, forgotPassword);
 router.put("/forgot_password/:id/:token", verifyForgotPassowdToken);
 router.put("/:id", jwtVerify, updateUser);
-router.delete("/:id", jwtVerify, checkAdmin, deleteUser);
+router.delete("/:id", deleteUser);
 
 module.exports = router;
